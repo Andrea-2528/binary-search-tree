@@ -26,21 +26,6 @@ class Tree {
 		);
 	}
 
-	// Methods
-	buildTree() {}
-	sortArray() {}
-	insertItem() {}
-	deleteItem() {}
-	find() {}
-	levelOrder() {}
-	inOrder() {}
-	preOrder() {}
-	postOrder() {}
-    height() {}
-    depth() {}
-    isBalanced() {}
-    rebalance() {}
-
 	buildTree(array, start, end) {
 		if (start > end) {
 			return null;
@@ -151,43 +136,96 @@ class Tree {
 		return result;
 	}
 
-    
-    inOrder() {
-        const result = [];
-        const traverse = (node) => {
-            if (node !== null) {
-                traverse(node.left);
-                result.push(node.data);
-                traverse(node.right);
-            }
-        };
-        traverse(this.root);
-        return result;
-    }
+	inOrder() {
+		const result = [];
+		const traverse = (node) => {
+			if (node !== null) {
+				traverse(node.left);
+				result.push(node.data);
+				traverse(node.right);
+			}
+		};
+		traverse(this.root);
+		return result;
+	}
 
-    preOrder() {
-        const result = [];
-        const traverse = (node) => {
-            if (node !== null) {
-                result.push(node.data);
-                traverse(node.left);
-                traverse(node.right);
-            }
-        };
-        traverse(this.root);
-        return result;
-    }
+	preOrder() {
+		const result = [];
+		const traverse = (node) => {
+			if (node !== null) {
+				result.push(node.data);
+				traverse(node.left);
+				traverse(node.right);
+			}
+		};
+		traverse(this.root);
+		return result;
+	}
 
-    postOrder() {
-        const result = [];
-        const traverse = (node) => {
-            if (node !== null) {
-                traverse(node.left);
-                traverse(node.right);
-                result.push(node.data);
-            }
-        };
-        traverse(this.root);
-        return result;
-    }
+	postOrder() {
+		const result = [];
+		const traverse = (node) => {
+			if (node !== null) {
+				traverse(node.left);
+				traverse(node.right);
+				result.push(node.data);
+			}
+		};
+		traverse(this.root);
+		return result;
+	}
+
+	// Height is defined as the number of edges in the longest path from a given node to a leaf node.
+	height(node) {
+		if (node === null) {
+			return -1;
+		}
+		return 1 + Math.max(this.height(node.left), this.height(node.right));
+	}
+
+	// Depth is defined as the number of edges in the path from a given node to the tree’s root node.
+	depth(node) {
+		let steps = 0;
+		const countSteps = (root, node) => {
+			if (root === null) {
+				return null;
+			}
+			if (root.data === node.data) {
+				return steps;
+			}
+			if (node.data < root.data) {
+				steps++;
+				return countSteps(root.left, node);
+			}
+			if (node.data > root.data) {
+				steps++;
+				return countSteps(root.right, node);
+			}
+		};
+		return countSteps(this.root, node);
+	}
+
+	// A balanced tree is one where the difference between heights of the left subtree and the right subtree of every node is not more than 1.
+	isBalanced() {
+		const checkBalanced = (node) => {
+			if (node === null) {
+				return true;
+			}
+			let leftHeight = this.height(node.left);
+			let rightHeight = this.height(node.right);
+			if (Math.abs(leftHeight - rightHeight) > 1) {
+				return false;
+			}
+			return checkBalanced(node.left) && checkBalanced(node.right);
+		};
+		return checkBalanced(this.root);
+	}
+
+	rebalance() {
+		this.root = this.buildTree(
+			this.inOrder(),
+			0,
+			this.inOrder().length - 1
+		);
+	}
 }

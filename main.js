@@ -1,8 +1,4 @@
 import { Tree } from "./bst.js";
-// const testArray = [
-// 	1, 43, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 324, 1, 43, 4, 23, 8, 9, 4, 3, 5, 7,
-// 	9, 67, 324, 32, 78, 42, 12,
-// ];
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
 	if (node === null) {
@@ -17,49 +13,47 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 	}
 };
 
-const tree = new Tree([10, 8, 32, 9, 17, 82, 24, 21, 5, 1, 4, 7]);
+// Function that returns an array of random numbers from 1 to 100
+const randomArray = () => {
+    const array = [];
+    // randomSize should be a random integer from 10 to 30
+    const randomSize = Math.floor(Math.random() * 21) + 10;
+    for (let i = 0; i < randomSize; i++) {
+        array.push(Math.floor(Math.random() * 100) + 1);
+    }
+    return array;
+}
 
-// TEST
-console.log("TESTS -------------------------------------------------------------");
-// Insert test
-console.log("Insert test -------------------------------------------------------------");
-tree.insertItem(12);
-tree.insertItem(62);
-tree.insertItem(6);
-tree.insertItem(2);
-tree.insertItem(98);
+const tree = new Tree(randomArray());
 prettyPrint(tree.root);
 
-// Delete test
-console.log("Delete test -------------------------------------------------------------");
-tree.deleteItem(2);
-tree.deleteItem(7);
-tree.deleteItem(9);
+console.log("Is balanced:");
+console.log(tree.isBalanced());
+console.log("Level order:", tree.levelOrder());
+console.log("In order:", tree.inOrder());
+console.log("Pre order:", tree.preOrder());
+console.log("Post order", tree.postOrder());
+
+console.log("Adding unbalancing elements (>100):");
+tree.insertItem(102);
+tree.insertItem(106);
+tree.insertItem(115);
+tree.insertItem(118);
+tree.insertItem(103);
+tree.insertItem(111);
+tree.insertItem(120);
+tree.insertItem(109);
+tree.insertItem(108);
 prettyPrint(tree.root);
 
-// Find test
-console.log("Find test -------------------------------------------------------------");
-console.log(" 24 -------------------------------------------------------------");
-console.log(tree.find(24));
-console.log(" 17 -------------------------------------------------------------");
-console.log(tree.find(17));
-console.log(" 10 -------------------------------------------------------------");
-console.log(tree.find(10));
-
-
+console.log("Is balanced:");
+console.log(tree.isBalanced());
+console.log("Rebalance:");
+tree.rebalance();
 prettyPrint(tree.root);
-// Level order test
-console.log("Level order test -------------------------------------------------------------");
-console.log(tree.levelOrder());
-
-// In order test
-console.log("In order test -------------------------------------------------------------");
-console.log(tree.inOrder());
-
-// Pre order test
-console.log("Pre order test -------------------------------------------------------------");
-console.log(tree.preOrder());
-
-// Post order test
-console.log("Post order test -------------------------------------------------------------");
-console.log(tree.postOrder());
+console.log("Is balanced:");
+console.log(tree.isBalanced());
+console.log("Level order:", tree.levelOrder());
+console.log("In order:", tree.inOrder());
+console.log("Pre order:", tree.preOrder());
+console.log("Post order", tree.postOrder());
